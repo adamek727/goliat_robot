@@ -7,12 +7,14 @@
 #include "udp_listener.h"
 
 #define RAMP_CONSTANT 0.2
-//#define DEBUG
+#define DEBUG
 
 void debug_printout();
 
 static int left_wheel_speed = 0;
 static int right_wheel_speed = 0;
+static int odometry_left = 0;
+static int odometry_right = 0;
 
 int main(int argc, char* argv[]) {
 		
@@ -32,7 +34,15 @@ int main(int argc, char* argv[]) {
             left_wheel_speed = right_wheel_speed = 0;
         }
 
+        usleep(10000);
         km2_drive(fd, 0x71, (int16_t)left_wheel_speed, (int16_t)right_wheel_speed);
+        usleep(10000);
+        km2_odometry(fd, 0x71, &odometry_left, &odometry_right);
+        usleep(10000);
+
+        total_odometry_left += odometry_left;
+        total_odometry_right += odometry_right;
+
 #ifdef DEBUG
         debug_printout();
 #endif
@@ -54,6 +64,8 @@ void debug_printout() {
     printf("targets-> l: %d r: %d\n", left_wheel_speed_target, right_wheel_speed_target);
     printf("real-> l: %d r: %d\n", left_wheel_speed, right_wheel_speed);
     printf("speed msg ttl: %d\n", speed_msg_ttl);
+    printf("odometry l: %d r: %d\n", odometry_left, odometry_right);
+    printf("total odometry l: %ld r: %ld\n", total_odometry_left, total_odometry_right);
 }
 
 

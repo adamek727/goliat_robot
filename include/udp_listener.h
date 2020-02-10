@@ -22,6 +22,9 @@ enum UdpStatus{
 static int left_wheel_speed_target = 0;
 static int right_wheel_speed_target = 0;
 
+static long int total_odometry_left = 0;
+static long int total_odometry_right = 0;
+
 unsigned int speed_msg_ttl = MAX_SPEED_MSG_TTL;
 static enum UdpStatus udp_status = Ok;
 

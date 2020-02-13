@@ -7,7 +7,7 @@
 #include "udp_listener.h"
 
 #define RAMP_CONSTANT 0.2
-#define DEBUG
+//#define DEBUG
 
 void debug_printout();
 
@@ -34,11 +34,9 @@ int main(int argc, char* argv[]) {
             left_wheel_speed = right_wheel_speed = 0;
         }
 
-        usleep(10000);
         km2_drive(fd, 0x71, (int16_t)left_wheel_speed, (int16_t)right_wheel_speed);
-        usleep(10000);
+        usleep(50000);
         km2_odometry(fd, 0x71, &odometry_left, &odometry_right);
-        usleep(10000);
 
         total_odometry_left += odometry_left;
         total_odometry_right += odometry_right;
@@ -50,7 +48,7 @@ int main(int argc, char* argv[]) {
             printf("UDP Failed ... exiting!");
             break;
         }
-        usleep(100000); // 100 ms
+        usleep(50000); // 100 ms
     }
 
     i2c_close(fd);

@@ -4,7 +4,7 @@ project(robot)
 find_package(Threads REQUIRED)
 
 set(SOURCES 
-	src/main.c)
+        src/main.c)
 
 include_directories(
 	include
